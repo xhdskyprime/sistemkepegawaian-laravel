@@ -13,5 +13,10 @@ class Employee extends Model
         'jabatan',
         'tanggal_lahir',
         'jenis_kelamin',
+        'jenis_pegawai',
+        'no_sip',
+        'tanggal_terbit',
+        'tanggal_kadaluwarsa',
+        'email'
     ];
 }

@@ -9,5 +9,23 @@
         <button type="submit" class="btn btn-success">Simpan</button>
         <a href="{{ route('employees.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const jenisPegawai = document.getElementById('jenis_pegawai');
+        const sipSection = document.getElementById('sip-section');
+
+        function toggleSipSection() {
+            if (jenisPegawai.value === 'Tenaga Medis') {
+                sipSection.style.display = 'block';
+            } else {
+                sipSection.style.display = 'none';
+            }
+        }
+
+        jenisPegawai.addEventListener('change', toggleSipSection);
+        toggleSipSection(); // jalankan saat pertama kali load
+    });
+</script>
+
 </div>
 @endsection

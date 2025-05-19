@@ -18,6 +18,7 @@
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">NIP</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Nama</th>
+                            <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jenis Pegawai</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Pangkat</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jabatan</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tanggal Lahir</th>
@@ -35,19 +36,28 @@
                                 <p class="text-xs font-weight-bold mb-0">{{ $employee->nip }}</p>
                             </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0">{{ $employee->name }}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $employee->nama }}</p>
                             </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0">{{ $employee->rank }}</p>
+                                @if ($employee->jenis_pegawai == 'Tenaga Medis')
+                                    <span class="badge rounded-pill bg-success">Medis</span>
+                                @elseif ($employee->jenis_pegawai == 'Tenaga Non-Medis')
+                                    <span class="badge rounded-pill bg-primary">Non - Medis</span>
+                                @else
+                                    <span class="badge rounded-pill bg-secondary">Tidak Diketahui</span>
+                                @endif
                             </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0">{{ $employee->position }}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $employee->pangkat }}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">{{ $employee->jabatan }}</p>
                             </td>
                             <td>
                                 <p class="text-xs font-weight-bold mb-0">{{ \Carbon\Carbon::parse($employee->birth_date)->format('d-m-Y') }}</p>
                             </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0">{{ $employee->gender }}</p>
+                                <p class="text-xs font-weight-bold mb-0">{{ $employee->jenis_kelamin }}</p>
                             </td>
                             <td class="text-end">
                                 <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-link text-info btn-sm mb-0" title="Edit">
