@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\SchedulerSetting;
+use App\Console\Commands\SendSIPNotifications;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,8 +15,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\SendSIPNotifications::class,
     ];
+
 
     /**
      * Define the application's command schedule.
@@ -24,12 +27,32 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $hour = config('app.hour');
-        $min = config('app.min');
-        $scheduledInterval = $hour !== '' ? ( ($min !== '' && $min != 0) ?  $min .' */'. $hour .' * * *' : '0 */'. $hour .' * * *') : '*/'. $min .' * * * *';
-        if(env('IS_DEMO')) {
-            $schedule->command('migrate:fresh --seed')->cron($scheduledInterval);
-        }
+        $setting = SchedulerSetting::first();
+
+        // Default: Minggu jam 9:00 jika belum diset
+        $day = $setting?->day_of_week ?? 'sun';
+        $hour = $setting?->hour ?? 9;
+        $minute = $setting?->minute ?? 0;
+
+        $cron = "{$minute} {$hour} * * " . $this->convertDay($day);
+
+        $schedule->command('send:sip-notifications')->cron($cron);
+    }
+
+    // Tambahkan helper jika perlu
+    protected function convertDay($day)
+    {
+        // Laravel menerima: 0=Sun, 1=Mon,...
+        return match (strtolower($day)) {
+            'sun' => 0,
+            'mon' => 1,
+            'tue' => 2,
+            'wed' => 3,
+            'thu' => 4,
+            'fri' => 5,
+            'sat' => 6,
+            default => '*'
+        };
     }
 
     /**
@@ -39,7 +62,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

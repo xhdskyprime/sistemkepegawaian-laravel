@@ -4,10 +4,10 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">Data SIP - Tenaga Medis</h4>
-        <form method="GET" action="{{ route('employees.sip') }}" class="d-flex align-items-center gap-2" style="max-width: 350px; width: 100%;">
+        <form method="GET" action="{{ route('employees.allsip') }}" class="d-flex align-items-center gap-2" style="max-width: 350px; width: 100%;">
             <input type="text" name="search" class="form-control form-control-sm py-2" style="height: 40px;" placeholder="Cari nama, NIP, SIP, atau email..." value="{{ request('search') }}">
             <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit" style="height: 40px;    margin-bottom: 0px;">
-                <i class="fas fa-search me-1"></i> CARI
+                <i class="fas fa-search fs-6"></i> CARI
             </button>
         </form>
     </div>

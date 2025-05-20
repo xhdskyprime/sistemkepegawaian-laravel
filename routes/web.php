@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SchedulerController;
 
 
 /*
@@ -28,6 +29,15 @@ Route::resource('employees', EmployeeController::class);
 Route::get('/allsip', [EmployeeController::class, 'allsip'])->name('employees.allsip');
 
 Route::get('/sip', [EmployeeController::class, 'sip'])->name('employees.sip');
+
+Route::get('/sip/send-email-massal', [EmployeeController::class, 'sendEmailMassal'])->name('sip.sendEmailMassal');
+
+Route::get('/sip/kirim-rekap-email', [EmployeeController::class, 'sendRekapEmail'])->name('sip.sendRekapEmail');
+
+Route::get('/sip/kirim-rekap-telegram', [EmployeeController::class, 'sendRekapTelegram'])->name('sip.sendRekapTelegram');
+
+Route::post('/scheduler/update', [SchedulerController::class, 'update'])->name('scheduler.update');
+
 
 Route::group(['middleware' => 'auth'], function () {
 
