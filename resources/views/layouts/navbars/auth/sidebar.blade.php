@@ -26,11 +26,19 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{ Request::is('sip') ? 'active' : '' }}" href="{{ url('sip') }}">
+        <a class="nav-link {{ Request::is('allsip') ? 'active' : '' }}" href="{{ url('allsip') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="fas fa-hospital-user text-dark text-sm"></i>
           </div>
           <span class="nav-link-text ms-1">Data SIP</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ Request::is('sip') ? 'active' : '' }}" href="{{ url('sip') }}">
+          <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="fas fa-exclamation text-dark text-sm"></i>
+          </div>
+          <span class="nav-link-text ms-1">Pantau SIP</span>
         </a>
       </li>
     </ul>

@@ -25,6 +25,8 @@ use App\Http\Controllers\EmployeeController;
 
 Route::resource('employees', EmployeeController::class);
 
+Route::get('/allsip', [EmployeeController::class, 'allsip'])->name('employees.allsip');
+
 Route::get('/sip', [EmployeeController::class, 'sip'])->name('employees.sip');
 
 Route::group(['middleware' => 'auth'], function () {

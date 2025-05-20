@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="mb-0">Pantau SIP - Tenaga Medis</h4>
+        <h4 class="mb-0">Data SIP - Tenaga Medis</h4>
         <form method="GET" action="{{ route('employees.sip') }}" class="d-flex align-items-center gap-2" style="max-width: 350px; width: 100%;">
             <input type="text" name="search" class="form-control form-control-sm py-2" style="height: 40px;" placeholder="Cari nama, NIP, SIP, atau email..." value="{{ request('search') }}">
             <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit" style="height: 40px;    margin-bottom: 0px;">
@@ -27,7 +27,6 @@
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">No SIP</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tgl Terbit</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tgl Kadaluwarsa</th>
-                            <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Sisa Hari</th>
                             <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Email</th>
                         </tr>
                     </thead>
@@ -44,7 +43,7 @@
                             <td><p class="text-xs font-weight-bold mb-0">
                                 {{ $employee->tanggal_kadaluwarsa ? \Carbon\Carbon::parse($employee->tanggal_kadaluwarsa)->format('d-m-Y') : '-' }}
                             </p></td>
-                            <td><p class="text-xs font-weight-bold mb-0">
+                            {{-- <td><p class="text-xs font-weight-bold mb-0">
                                 @php
                                 $sisaHari = \Carbon\Carbon::parse($employee->tanggal_kadaluwarsa)->diffInDays(now(), false);
                                 @endphp
@@ -54,7 +53,7 @@
                                 <span class="text-warning">Hari ini</span>
                                 @else
                                 <span class="text-success">Sisa {{ floor(abs($sisaHari)) }} hari</span>
-                                @endif</p></td>
+                                @endif</p></td> --}}
                             <td><p class="text-xs font-weight-bold mb-0">{{ $employee->email ?? '-' }}</p></td>
                         </tr>
                         @endforeach

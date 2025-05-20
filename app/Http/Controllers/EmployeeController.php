@@ -74,23 +74,23 @@ class EmployeeController extends Controller
     //     return view('sips.sip', compact('employees'));
     // }
 
-    // public function sip(Request $request)
-    // {
-    //     $search = $request->input('search');
+    public function allsip(Request $request)
+    {
+        $search = $request->input('search');
 
-    //     $employees = Employee::where('jenis_pegawai', 'Tenaga Medis')
-    //         ->when($search, function ($query, $search) {
-    //             $query->where(function ($q) use ($search) {
-    //                 $q->where('nama', 'like', "%{$search}%")
-    //                     ->orWhere('nip', 'like', "%{$search}%")
-    //                     ->orWhere('no_sip', 'like', "%{$search}%")
-    //                     ->orWhere('email', 'like', "%{$search}%");
-    //             });
-    //         })
-    //         ->paginate(10);
+        $employees = Employee::where('jenis_pegawai', 'Tenaga Medis')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
+                        ->orWhere('nip', 'like', "%{$search}%")
+                        ->orWhere('no_sip', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->paginate(10);
 
-    //     return view('sips.sip', compact('employees', 'search'));
-    // }
+        return view('sips.allsip', compact('employees', 'search'));
+    }
 
 
 
