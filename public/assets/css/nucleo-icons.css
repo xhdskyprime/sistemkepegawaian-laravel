@@ -595,3 +595,18 @@ License - nucleoapp.com/license/
 
 
 /* all icon font classes list here */
+
+.btn-link.text-info:hover i,
+.btn-link.text-danger:hover i {
+    color: inherit; /* biar tetap mengikuti warna hover dari tombol */
+    transform: scale(1.3); /* memperbesar ukuran 1.3 kali */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-link.text-info:hover i {
+    color: #0d6efd; /* warna biru saat hover */
+}
+
+.btn-link.text-danger:hover i {
+    color: #dc3545; /* warna merah saat hover */
+}

@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a04c334c80.js" crossorigin="anonymous"></script>
 
     <!-- CSS Files -->
     <link href="{{ asset('assets/css/soft-ui-dashboard.css?v=1.0.3') }}" rel="stylesheet" />
@@ -37,10 +37,10 @@
     <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
     <script src="{{ asset('soft-ui-dashboard/assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('soft-ui-dashboard/assets/js/core/bootstrap.min.js') }}"></script>
-<script src="{{ asset('soft-ui-dashboard/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('soft-ui-dashboard/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-<script src="{{ asset('soft-ui-dashboard/assets/js/soft-ui-dashboard.min.js?v=1.0.7') }}"></script>
+    <script src="{{ asset('soft-ui-dashboard/assets/js/core/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('soft-ui-dashboard/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('soft-ui-dashboard/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('soft-ui-dashboard/assets/js/soft-ui-dashboard.min.js?v=1.0.7') }}"></script>
 
 
     @yield('scripts')

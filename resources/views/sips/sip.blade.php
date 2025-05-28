@@ -112,7 +112,7 @@
                     <tbody>
                         @foreach ($employees as $index => $employee)
                         <tr>
-                            <td><p class="text-xs font-weight-bold mb-0">{{ $index + 1 }}</p></td>
+                            <td><p class="text-xs font-weight-bold mb-0 text-center">{{ $index + 1 }}</p></td>
                             <td><p class="text-xs font-weight-bold mb-0">{{ $employee->nip }}</p></td>
                             <td><p class="text-xs font-weight-bold mb-0">{{ $employee->nama }}</p></td>
                             <td><p class="text-xs font-weight-bold mb-0">{{ $employee->no_sip ?? '-' }}</p></td>
