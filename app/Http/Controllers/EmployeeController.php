@@ -176,7 +176,7 @@ class EmployeeController extends Controller
             });
         }
 
-        // Filter SIP yang akan expired dalam 6 bulan ke depan
+        // Filter SIP yang akan Kedaluwarsa dalam 6 bulan ke depan
         $sixMonthsFromNow = Carbon::now()->addMonths(6);
         $query->whereDate('tanggal_kadaluwarsa', '<=', $sixMonthsFromNow);
         $query->orderBy('tanggal_kadaluwarsa', 'asc');
@@ -196,7 +196,7 @@ class EmployeeController extends Controller
         $employees = Employee::where('jenis_pegawai', 'Tenaga Medis')
             ->whereNotNull('email')
             ->whereDate('tanggal_kadaluwarsa', '<=', $sixMonthsFromNow)
-            // jika yang telah kadaluarsa tidak ingin dikirim email juga
+            // jika yang telah Kedaluwarsa tidak ingin dikirim email juga
             // ->whereDate('tanggal_kadaluwarsa', '>=', Carbon::now())
             ->get();
 
@@ -207,18 +207,18 @@ class EmployeeController extends Controller
                 $tanggal = \Carbon\Carbon::parse($employee->tanggal_kadaluwarsa)->format('d-m-Y');
                 $isExpired = \Carbon\Carbon::parse($employee->tanggal_kadaluwarsa)->lt($today);
 
-                // Tentukan subject dan body berdasarkan status kadaluarsa
+                // Tentukan subject dan body berdasarkan status Kedaluwarsa
                 if ($isExpired) {
-                    $subject = "Pengingat: SIP Telah Kadaluarsa";
+                    $subject = "Pengingat: SIP Telah Kedaluwarsa";
                     $body = "Yth. {$employee->nama},\n\n" .
-                        "SIP Anda dengan nomor {$employee->no_sip} telah kedaluwarsa pada {$tanggal}.\n" .
-                        "Segera lakukan perpanjangan jika belum.\n\n" .
+                        "SIP Anda dengan nomor {$employee->no_sip} telah berakhir pada {$tanggal}.\n" .
+                        "Segera melakukan konfirmasi ke Bagian Umum dan Kepegawaian RSUD Tigaraksa terkait email pemberitahuan ini dan silahkan melakukan perpanjangan SIP Bapak/Ibu.\n\n" .
                         "Terima kasih.";
                 } else {
-                    $subject = "Pengingat: SIP Akan Kadaluarsa";
+                    $subject = "Pengingat: SIP Akan Kedaluwarsa";
                     $body = "Yth. {$employee->nama},\n\n" .
-                        "SIP Anda dengan nomor {$employee->no_sip} akan kedaluwarsa pada {$tanggal}.\n" .
-                        "Silakan lakukan perpanjangan tepat waktu.\n\n" .
+                        "SIP Anda dengan nomor {$employee->no_sip} akan berakhir pada {$tanggal}.\n" .
+                        "Segera melakukan konfirmasi ke Bagian Umum dan Kepegawaian RSUD Tigaraksa terkait email pemberitahuan ini dan silahkan melakukan perpanjangan SIP Bapak/Ibu.\n\n" .
                         "Terima kasih.";
                 }
 
@@ -242,7 +242,7 @@ class EmployeeController extends Controller
     {
         $today = Carbon::today();
         $sixMonthsFromNow = $today->copy()->addMonths(6);
-        $pastLimit = $today->copy()->subDays(30); // Tambahkan yang sudah kadaluarsa 1 bulan ke belakang
+        $pastLimit = $today->copy()->subDays(30); // Tambahkan yang sudah Kedaluwarsa 1 bulan ke belakang
 
         $employees = Employee::where('jenis_pegawai', 'Tenaga Medis')
             ->whereBetween('tanggal_kadaluwarsa', [$pastLimit, $sixMonthsFromNow])
@@ -250,7 +250,7 @@ class EmployeeController extends Controller
             ->get();
 
         if ($employees->isEmpty()) {
-            return redirect()->back()->with('warning', '⚠️ Tidak ada data SIP yang akan/telah kadaluarsa.');
+            return redirect()->back()->with('warning', '⚠️ Tidak ada data SIP yang akan/telah Kedaluwarsa.');
         }
 
         $rows = '';
@@ -268,12 +268,12 @@ class EmployeeController extends Controller
                 $days = $diff->d;
 
                 $sisaText = $months > 0 ? "{$months} bulan {$days} hari lagi" : "{$days} hari lagi";
-                $status = "AKAN KADALUWARSA";
+                $status = "AKAN KEDALUWARSA";
                 $bgColor = "#fff3cd"; // kuning muda
 
             } elseif ($expiredDate->equalTo($today)) {
                 $sisaText = "hari ini";
-                $status = "AKAN KADALUWARSA";
+                $status = "AKAN KEDALUWARSA";
                 $bgColor = "#fff3cd";
             } else {
                 $diff = $expiredDate->diff($today); // DateInterval
@@ -281,7 +281,7 @@ class EmployeeController extends Controller
                 $days = $diff->d;
 
                 $sisaText = $months > 0 ? "{$months} bulan {$days} hari yang lalu" : "{$days} hari yang lalu";
-                $status = "KADALUWARSA";
+                $status = "KEDALUWARSA";
                 $bgColor = "#f8d7da"; // merah muda
             }
 
@@ -300,7 +300,7 @@ class EmployeeController extends Controller
         $htmlBody = "
             <html>
             <body>
-                <p>📋 Berikut adalah rekap pegawai dengan SIP yang akan atau telah kadaluarsa:</p>
+                <p>📋 Berikut adalah rekap pegawai dengan SIP yang akan atau telah Kedaluwarsa:</p>
                 <table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse; font-family: Arial; font-size: 14px; width: 100%;'>
                     <thead style='background-color: #cce5ff;'>
                         <tr>
@@ -326,7 +326,7 @@ class EmployeeController extends Controller
 
         Mail::send([], [], function ($message) use ($adminEmail, $htmlBody) {
             $message->to($adminEmail)
-                ->subject('📋 Rekap SIP Akan/Telah Kadaluarsa')
+                ->subject('📋 Rekap SIP Akan/Telah Kedaluwarsa')
                 ->html($htmlBody);
         });
 
@@ -359,10 +359,10 @@ class EmployeeController extends Controller
             ->get();
 
         if ($sips->isEmpty()) {
-            return redirect()->back()->with('warning', '✅ Tidak ada SIP yang akan atau telah expired.');
+            return redirect()->back()->with('warning', '✅ Tidak ada SIP yang akan atau telah kedaluwarsa.');
         }
 
-        $message = "<b>📋 REKAP SIP YANG AKAN/TELAH EXPIRED</b>\n";
+        $message = "<b>📋 REKAP SIP YANG AKAN/TELAH KEDALUWARSA</b>\n";
         $message .= "Per tanggal <b>" . $today->format('d-m-Y') . "</b>\n\n";
         $message .= "<pre>";
         $message .= str_pad("Nama", 18) . str_pad("No SIP", 15) . str_pad("Tgl Exp", 13) . "Sisa Hari\n";

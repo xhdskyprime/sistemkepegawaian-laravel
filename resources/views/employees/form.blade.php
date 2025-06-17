@@ -130,7 +130,7 @@
                     value="{{ isset($employee) ? \Carbon\Carbon::parse($employee->tanggal_terbit)->format('d-m-Y') : old('tanggal_terbit') }}">
             </div>
             <div class="mb-3">
-                <label for="tanggal_kadaluwarsa" class="form-label">Tanggal Kadaluwarsa</label>
+                <label for="tanggal_kadaluwarsa" class="form-label">Tanggal Kedaluwarsa</label>
                 <input type="text" name="tanggal_kadaluwarsa" class="form-control datepicker"
                     value="{{ isset($employee) ? \Carbon\Carbon::parse($employee->tanggal_kadaluwarsa)->format('d-m-Y') : old('tanggal_kadaluwarsa') }}">
             </div>

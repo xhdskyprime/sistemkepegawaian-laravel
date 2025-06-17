@@ -121,7 +121,7 @@
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tgl
                                     Terbit</th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tgl
-                                    Kadaluwarsa</th>
+                                    Kedaluwarsa</th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Sisa
                                     Hari</th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Email
