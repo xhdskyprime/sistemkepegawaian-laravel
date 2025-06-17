@@ -9,49 +9,112 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rule;
+
 
 class EmployeeController extends Controller
 {
+
     public function index()
     {
-        $employees = Employee::paginate(10);  // paginate 10 data per halaman
+        $employees = Employee::select(
+            'id',
+            'nip',
+            'nama',
+            'jenis_pegawai',
+            'pangkat',
+            'jabatan',
+            'formasi',
+            'tanggal_lahir',
+        ) // sesuaikan kolom yang kamu pakai
+        ->orderByRaw("
+            FIELD(jabatan,
+                'Direktur',
+                'Wakil Direktur',
+                'Kepala Bagian',
+                'Kepala Bidang',
+                'Kepala Subbagian',
+                'Kepala Seksi',
+                'Staf / Fungsional'
+            )
+        ")
+        ->orderByRaw("
+            FIELD(LOWER(REPLACE(pangkat, ' ', '')),
+            'ive','ivd','ivc','ivb','iva',
+            'iiid','iiic','iiib','iiia',
+            'iid','iic','iib','iia',
+            'id','ic','ib','ia')
+        ")
+        ->orderBy('tanggal_lahir', 'asc')
+        ->paginate(10); // tampil 10 pegawai per halaman
+
         return view('employees.index', compact('employees'));
     }
 
-
     public function store(Request $request)
     {
-        // Validasi sederhana
         $request->validate([
             'nip' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
-            'pangkat' => 'required|string|max:255',
+            'pangkat' => ['required', Rule::in([
+                'IVe', 'IVd', 'IVc', 'IVb', 'IVa',
+                'IIId', 'IIIc', 'IIIb', 'IIIa',
+                'IId', 'IIc', 'IIb', 'IIa',
+                'Id', 'Ic', 'Ib', 'Ia'
+            ])],
             'jabatan' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'required|date_format:d-m-Y',
             'jenis_kelamin' => 'required|string',
+            'tanggal_terbit' => 'nullable|date_format:d-m-Y',
+            'tanggal_kadaluwarsa' => 'nullable|date_format:d-m-Y',
+            'formasi' => 'nullable|string|max:255',
         ]);
 
-        Employee::create($request->all());
+        $data = $request->all();
+        $data['tanggal_lahir'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_lahir'])->format('Y-m-d');
+        $data['tanggal_terbit'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_terbit'])->format('Y-m-d');
+        $data['tanggal_kadaluwarsa'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_kadaluwarsa'])->format('Y-m-d');
+
+
+        Employee::create($data);
 
         return redirect()->route('employees.index')->with('success', 'Pegawai berhasil ditambahkan');
     }
+
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'nip' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
-            'pangkat' => 'required|string|max:255',
+            'pangkat' => ['required', Rule::in([
+                'IVe', 'IVd', 'IVc', 'IVb', 'IVa',
+                'IIId', 'IIIc', 'IIIb', 'IIIa',
+                'IId', 'IIc', 'IIb', 'IIa',
+                'Id', 'Ic', 'Ib', 'Ia'
+            ])],
             'jabatan' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => 'required|date_format:d-m-Y',
             'jenis_kelamin' => 'required|string',
+            'tanggal_terbit' => 'nullable|date_format:d-m-Y',
+            'tanggal_kadaluwarsa' => 'nullable|date_format:d-m-Y',
+            'formasi' => 'nullable|string|max:255',
         ]);
 
         $employee = Employee::findOrFail($id);
-        $employee->update($request->all());
+
+        $data = $request->all();
+        $data['tanggal_lahir'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_lahir'])->format('Y-m-d');
+        $data['tanggal_terbit'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_terbit'])->format('Y-m-d');
+        $data['tanggal_kadaluwarsa'] = Carbon::createFromFormat('d-m-Y', $data['tanggal_kadaluwarsa'])->format('Y-m-d');
+
+
+        $employee->update($data);
+        Log::info('Tanggal input:', [$request->input('tanggal_lahir')]);
 
         return redirect()->route('employees.index')->with('success', 'Pegawai berhasil diupdate');
     }
+
 
     public function destroy($id)
     {

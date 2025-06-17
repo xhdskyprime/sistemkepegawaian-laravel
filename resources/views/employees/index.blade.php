@@ -7,7 +7,7 @@
 
             <div class="d-flex align-items-center gap-2 ms-auto">
                 <!-- Dropdown Master -->
-                <div class="dropdown">
+                {{-- <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center px-3" type="button"
                         id="dropdownMaster" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-database px-2"></i> Master
@@ -16,10 +16,10 @@
                         <li><a class="dropdown-item" href="{{ route('employees.create') }}">Golongan</a></li>
                         <li><a class="dropdown-item" href="{{ route('employees.create') }}">Formasi</a></li>
                     </ul>
-                </div>
+                </div> --}}
 
                 <!-- Tombol Tambah Pegawai -->
-                <a href="{{ route('employees.create') }}" class="btn btn-primary px-3">
+                <a href="{{ route('employees.create') }}" class="btn btn-primary btn-sm px-3">
                     <i class="fas fa-plus me-2"></i> Tambah Pegawai
                 </a>
             </div>
@@ -31,20 +31,27 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">NIP</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No
+                                </th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">NIP
+                                </th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Nama
                                 </th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jenis
-                                    Pegawai</th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Pangkat
                                 </th>
                                 <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jabatan
                                 </th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tanggal
-                                    Lahir</th>
-                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jenis
-                                    Kelamin</th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Formasi
+                                </th>
+                                <th
+                                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center align-middle">
+                                    Tanggal
+                                    Lahir
+                                </th>
+                                <th
+                                    class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 text-center align-middle">
+                                    Jenis Pegawai
+                                </th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
@@ -61,6 +68,19 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $employee->nama }}</p>
                                     </td>
                                     <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->pangkat }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->jabatan }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->formasi }}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0 text-center align-middle">
+                                            {{ \Carbon\Carbon::parse($employee->tanggal_lahir)->format('d-m-Y') }}</p>
+                                    </td>
+                                    <td class="text-center align-middle">
                                         @if ($employee->jenis_pegawai == 'Tenaga Medis')
                                             <span class="badge rounded-pill bg-success">Medis</span>
                                         @elseif ($employee->jenis_pegawai == 'Tenaga Non-Medis')
@@ -69,30 +89,17 @@
                                             <span class="badge rounded-pill bg-secondary">Tidak Diketahui</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->pangkat }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->jabatan }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">
-                                            {{ \Carbon\Carbon::parse($employee->birth_date)->format('d-m-Y') }}</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{ $employee->jenis_kelamin }}</p>
-                                    </td>
                                     <td class="text-end">
                                         <a href="{{ route('employees.edit', $employee->id) }}"
-                                            class="btn btn-link text-info btn-sm mb-0 px-3" title="Edit">
+                                            class="btn btn-link text-info mb-0 px-3" title="Edit">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         <form action="{{ route('employees.destroy', $employee->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-link text-danger btn-sm mb-0 px-3"
-                                                title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                            <button type="submit" class="btn btn-link text-danger mb-0 px-3" title="Hapus"
+                                                onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -109,8 +116,8 @@
                     </table>
                 </div>
                 {{-- Pagination jika ada --}}
-                <div class="d-flex justify-content-end mt-3">
-                    {{ $employees->links() }}
+                <div class="d-flex justify-content-end mt-4">
+                    {{ $employees->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

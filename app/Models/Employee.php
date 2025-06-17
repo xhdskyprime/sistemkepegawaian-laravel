@@ -17,6 +17,7 @@ class Employee extends Model
         'no_sip',
         'tanggal_terbit',
         'tanggal_kadaluwarsa',
-        'email'
+        'email',
+        'formasi',
     ];
 }
